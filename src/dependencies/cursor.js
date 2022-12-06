@@ -1,10 +1,11 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/Touch_events#additional_tips
-
 const ongoingTouches = [];
-const number_of_tests = 6;
+const number_of_tests = 10;
 const time_since_started = Date.now();
 let error_rate = 0;
-
+let str = window.location.href.split(".html")[0];
+let page_index = parseInt(str.charAt(str.length-1));
+page_index ++;
 
 // if cursor over the target, click to go to next text
 function elementsOverlap(el1, el2) {
@@ -20,28 +21,36 @@ function elementsOverlap(el1, el2) {
 }
 
 
-let str = window.location.href.split(".html")[0];
-let page_index = parseInt(str.charAt(str.length-1));
+function alert_and_navigate() {
+    let time_ended = Date.now();
+    let time_diff = (time_ended - time_since_started) / 1000;
+
+    alert("Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate: " + error_rate);
+
+    if (page_index >= number_of_tests) {
+        window.location.assign("../end.html");
+    } else {
+        window.location.assign("test" + page_index + ".html");
+    }
+
+}
 
 $(document).ready(function(){
+    let svg_colors = ["white", "green", "purple", "red", "yellow"];
+    let random_color = svg_colors[Math.floor(Math.random()*svg_colors.length)];
+    $("#color_name").text(random_color);
+    $("#my_target").attr("src", "../svg/apple_" + random_color + ".svg");
+
     $("#restart_test").click(function(){
         window.location.assign("index.html");
     });
 
     $("#my_target").click( function () {
-        // okkk show the time here, then wait 3 seconds
-        let time_ended = Date.now();
-        let time_diff = (time_ended - time_since_started) / 1000;
-
-        // console.log("Start: " + time_since_started + ", End: " + time_ended + " ///// Difference:" + time_diff);
-
-        alert("Time it took to complete the task: " + time_diff + " seconds.");
-
+        alert_and_navigate();
     });
 
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(page_index);
-
 });
 
 
@@ -194,27 +203,9 @@ function handleStart(evt) {
 
         const elem = document.getElementById('my_cursor');
         const target = document.getElementById('my_target');
-        let str = window.location.href.split(".html")[0];
-        let page_index = parseInt(str.charAt(str.length-1));
-        console.log(page_index);
-
 
         if (elementsOverlap(elem, target)) {
-
-            // okkk show the time here, then wait 3 seconds
-            let time_ended = Date.now();
-            let time_diff = (time_ended - time_since_started) / 1000
-            // console.log("Start: " + time_since_started + ", End: " + time_ended + " ///// Difference:" + time_diff);
-
-            alert("Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate:" + error_rate);
-
-            page_index ++;
-            if (page_index > number_of_tests) {
-                window.location.assign("../end.html");
-            } else {
-                window.location.assign("test" + page_index + ".html");
-            }
-
+            alert_and_navigate();
         }
 
         ongoingTouches.push(copyTouch(touches[i]));
