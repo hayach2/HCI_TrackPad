@@ -3,7 +3,7 @@
 const ongoingTouches = [];
 const number_of_tests = 6;
 const time_since_started = Date.now();
-
+let error_rate = 0;
 
 
 // if cursor over the target, click to go to next text
@@ -143,6 +143,8 @@ function handleMove(evt) {
 
             // X Y coordinates
 
+            // here!!
+
             const elem = document.getElementById('my_cursor');
 
             elem.style.position = "absolute";
@@ -151,6 +153,8 @@ function handleMove(evt) {
 
             let elem_left = parseInt(elem.style.left.replace('px', ''));
             let elem_top = parseInt(elem.style.top.replace('px', ''));
+
+            // here!!
 
             boundChecker(elem);
 
@@ -199,11 +203,10 @@ function handleStart(evt) {
 
             // okkk show the time here, then wait 3 seconds
             let time_ended = Date.now();
-            let time_diff = (time_ended - time_since_started) / 1000;
-
+            let time_diff = (time_ended - time_since_started) / 1000
             // console.log("Start: " + time_since_started + ", End: " + time_ended + " ///// Difference:" + time_diff);
 
-            alert("Time it took to complete the task: " + time_diff + " seconds.");
+            alert("Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate:" + error_rate);
 
             page_index ++;
             if (page_index > number_of_tests) {
