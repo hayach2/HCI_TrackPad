@@ -38,6 +38,15 @@ function alert_and_navigate() {
 
 }
 
+
+function alert_and_increment() {
+    error_rate++;
+    alert("You chose the wrong target.\n" + "Error rate: " + error_rate);
+    document.getElementById("my_cursor").style.top = "422px";
+    document.getElementById("my_cursor").style.top = "left: 195px";
+
+}
+
 $(document).ready(function(){
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
     let svg_colors = ["white"];
@@ -52,6 +61,9 @@ $(document).ready(function(){
     $("#my_target").click( function () {
         alert_and_navigate();
     });
+
+    var x = $("#my_target").position();
+    console.log("x:", x)
 
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(page_index);
@@ -143,9 +155,24 @@ function handleEnd(evt) {
             ctx.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
             ongoingTouches.splice(idx, 1);  // remove it; we're done
 
+            
             const elem = document.getElementById('my_cursor');
             const target = document.getElementById('my_target');
-
+            const falseTarget = document.getElementsByClassName("false_target");
+            
+            let elem_left = parseInt(elem.style.left.replace('px', ''));
+            let elem_top = parseInt(elem.style.top.replace('px', ''));
+            
+            console.log(falseTarget.length, "length")
+            for(let i = 0; i < falseTarget.length; i++) {
+                const _target = document.getElementById(`target_${i}`);
+                if (elementsOverlap(elem, _target)) {
+                    alert_and_increment();
+                }
+            }
+            console.log( document.elementsFromPoint(elem_left, elem_top) )
+            console.log(target, elem_left, elem_top)
+            // console.log("***", falseTarget)
             if (elementsOverlap(elem, target)) {
                 alert_and_navigate();
             }
@@ -160,20 +187,21 @@ function handleEnd(evt) {
 }
 
 
+var timestamp = 0;
 function handleMove(evt) {
     evt.preventDefault();
     const el = document.getElementById('canvas');
     const ctx = el.getContext('2d');
     const touches = evt.changedTouches;
-
+    
     for (let i = 0; i < touches.length; i++) {
         const color = colorForTouch(touches[i]);
         const idx = ongoingTouchIndexById(touches[i].identifier);
 
+        
         if (idx >= 0) {
-            console.log(`continuing touch ${idx}`);
             ctx.beginPath();
-
+            
             // here!!
 
             const elem = document.getElementById('my_cursor');
@@ -191,23 +219,38 @@ function handleMove(evt) {
             // X Y coordinates :: implement = dynamic gain with exponential speed exp(x-2)
             // the distance of the movement is the euclideanDistance
 
-            // let distance = euclideanDistance(touches[i].pageX, touches[i].pageY, [ongoingTouches[idx].pageX, ongoingTouches[idx].pageY]);
-            // let expo = parseInt( String(Math.log(distance)) );
-            // console.log("dist: " + distance + ", expo: " + expo);
+            var now = Date.now();
 
-            elem.style.left = (elem_left + x_movements * 2) + 'px';
-            elem.style.top = (elem_top + y_movements * 2) + 'px';
+            var dt = now- timestamp;
+            let distance = euclideanDistance(touches[i].pageX, touches[i].pageY, [ongoingTouches[idx].pageX, ongoingTouches[idx].pageY]);
+           
+            // console.log("distance:", distance);
+            // console.log("dt:", dt / 1000, now / 1000, timestamp);
+
+            var speed = (distance / dt * 1000);
+            // console.log("speed:", speed);
+            
+            
+            let expo = parseInt( String(Math.log(distance)) );
+            let expoSpeed = parseInt( String(Math.log(speed)) );
+            // console.log("expo: " + expo+ ", expoSpeed: " + expoSpeed);
+
+            elem.style.left = (elem_left + x_movements * expoSpeed) + 'px';
+            elem.style.top = (elem_top + y_movements * expoSpeed) + 'px';
 
 
 
             ctx.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
-            console.log(`ctx.lineTo( ${touches[i].pageX}, ${touches[i].pageY} );`);
+            // console.log(`ctx.lineTo( ${touches[i].pageX}, ${touches[i].pageY} );`);
             ctx.lineTo(touches[i].pageX, touches[i].pageY);
             ctx.lineWidth = 4;
             ctx.strokeStyle = color;
             ctx.stroke();
 
-            console.log(touches[i].pageX - ongoingTouches[idx].pageX);
+            // console.log(touches[i].pageX - ongoingTouches[idx].pageX);
+
+            // mY = currentmY;
+            timestamp = now;
 
             ongoingTouches.splice(idx, 1, copyTouch(touches[i]));  // swap in the new touch record
         } else {
@@ -219,17 +262,14 @@ function handleMove(evt) {
 
 function handleStart(evt) {
     evt.preventDefault();
-    console.log('touchstart.');
     const el = document.getElementById('canvas');
     const ctx = el.getContext('2d');
     const touches = evt.changedTouches;
 
 
     for (let i = 0; i < touches.length; i++) {
-        console.log(`touchstart: ${i}.`);
         ongoingTouches.push(copyTouch(touches[i]));
         const color = colorForTouch(touches[i]);
-        console.log(`color of touch with id ${touches[i].identifier} = ${color}`);
         ctx.beginPath();
         ctx.arc(touches[i].pageX, touches[i].pageY, 4, 0, 2 * Math.PI, false);  // a circle at the start
         ctx.fillStyle = color;

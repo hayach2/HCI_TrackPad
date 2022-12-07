@@ -39,6 +39,40 @@
 
 <body class="d-flex h-100 text-center text-white bg-dark">
 
+    <script>
+        (function() {
+        // your page initialization code here
+        // the DOM will be available here
+            var i=0;
+          
+            var posx = (358).toFixed();
+            var posy = (810).toFixed();
+            for (i=0;i<15;i++)
+            {  
+                let top = 3*i;
+                let randx = Math.random(5);
+                let randy = Math.random(5);
+                let randdy = Math.floor(Math.random() * 5);
+                let randdx = Math.floor(Math.random() * 11);
+                // console.log(randx, randy, randdy, randdx)
+                var plx = posx - randdx*32;
+                var ply = posy - randdy*32;
+                if(plx < (179+32) && plx > (179-32)) {
+                    // console.log(plx)
+                    plx+=40;
+                }
+                // console.log(posx, posy)
+                document.write(`
+                    <img class="false_target" id="target_${i}"  src="../svg/apple_green.svg" alt="" width="32" height="32" title="Not-Target" 
+                    style="
+                        position: absolute;
+                        top: ${ply}px;
+                        left: ${plx}px;
+                    ">
+                `); // This writes the number in a paragraph
+            }
+        })();
+    </script>
 <!-- p-3 -->
 <div class="cover-container d-flex w-100 h-100 p-0 mx-auto flex-column">
     <header class="mb-auto">
