@@ -20,6 +20,9 @@ function elementsOverlap(el1, el2) {
     );
 }
 
+function euclideanDistance (x, y, home) {
+    return Math.sqrt(Math.abs(x-home[1])^2+(y-home[2])^2);
+}
 
 function alert_and_navigate() {
     let time_ended = Date.now();
@@ -36,7 +39,8 @@ function alert_and_navigate() {
 }
 
 $(document).ready(function(){
-    let svg_colors = ["white", "green", "purple", "red", "yellow"];
+    // let svg_colors = ["white", "green", "purple", "red", "yellow"];
+    let svg_colors = ["white"];
     let random_color = svg_colors[Math.floor(Math.random()*svg_colors.length)];
     $("#color_name").text(random_color);
     $("#my_target").attr("src", "../svg/apple_" + random_color + ".svg");
@@ -58,15 +62,24 @@ function boundChecker(elem) {
     let elem_left = parseInt(elem.style.left.replace('px', ''));
     let elem_top = parseInt(elem.style.top.replace('px', ''));
 
-    if (elem_left < 0) {
-        elem.style.left = "0px";
-    } else if (elem_top < 0) {
-        elem.style.top = "0px";
-    } else if (elem_left > 360) {
-        elem.style.left = "360px";
-    } else if (elem_top > 613) {
-        elem.style.top = "613px";
+    // if (elem_left < 0) {
+    //     elem.style.left = "0px";
+    // } else if (elem_top < 0) {
+    //     elem.style.top = "0px";
+    // } else if (elem_left > 360) {
+    //     elem.style.left = "360px";
+    // } else if (elem_top > 613) {
+    //     elem.style.top = "613px";
+    // }
+
+    // cancel action
+    if ( elem_left > 360 || elem_left < 0 || elem_top > 844 || elem_top < 0) {
+        console.log('here');
+        //left: 195px; top: 422px;
+        elem.style.left = "195px";
+        elem.style.top = "422px";
     }
+    console.log('nvm');
 }
 
 function ongoingTouchIndexById(idToFind) {
@@ -129,6 +142,17 @@ function handleEnd(evt) {
             ctx.lineTo(touches[i].pageX, touches[i].pageY);
             ctx.fillRect(touches[i].pageX - 4, touches[i].pageY - 4, 8, 8);  // and a square at the end
             ongoingTouches.splice(idx, 1);  // remove it; we're done
+
+            const elem = document.getElementById('my_cursor');
+            const target = document.getElementById('my_target');
+
+            if (elementsOverlap(elem, target)) {
+                alert_and_navigate();
+            }
+
+            boundChecker(elem);
+
+
         } else {
             console.log('can\'t figure out which touch to end');
         }
@@ -150,11 +174,10 @@ function handleMove(evt) {
             console.log(`continuing touch ${idx}`);
             ctx.beginPath();
 
-            // X Y coordinates
-
             // here!!
 
             const elem = document.getElementById('my_cursor');
+            elem.style.display = "block";
 
             elem.style.position = "absolute";
             let x_movements = touches[i].pageX - ongoingTouches[idx].pageX;
@@ -165,12 +188,16 @@ function handleMove(evt) {
 
             // here!!
 
-            boundChecker(elem);
+            // X Y coordinates :: implement = dynamic gain with exponential speed exp(x-2)
+            // the distance of the movement is the euclideanDistance
 
-            elem.style.left = (elem_left + x_movements) + 'px';
-            elem.style.top = (elem_top + y_movements) + 'px';
+            // let distance = euclideanDistance(touches[i].pageX, touches[i].pageY, [ongoingTouches[idx].pageX, ongoingTouches[idx].pageY]);
+            // let expo = parseInt( String(Math.log(distance)) );
+            // console.log("dist: " + distance + ", expo: " + expo);
 
-            boundChecker(elem);
+            elem.style.left = (elem_left + x_movements * 2) + 'px';
+            elem.style.top = (elem_top + y_movements * 2) + 'px';
+
 
 
             ctx.moveTo(ongoingTouches[idx].pageX, ongoingTouches[idx].pageY);
@@ -200,14 +227,6 @@ function handleStart(evt) {
 
     for (let i = 0; i < touches.length; i++) {
         console.log(`touchstart: ${i}.`);
-
-        const elem = document.getElementById('my_cursor');
-        const target = document.getElementById('my_target');
-
-        if (elementsOverlap(elem, target)) {
-            alert_and_navigate();
-        }
-
         ongoingTouches.push(copyTouch(touches[i]));
         const color = colorForTouch(touches[i]);
         console.log(`color of touch with id ${touches[i].identifier} = ${color}`);
