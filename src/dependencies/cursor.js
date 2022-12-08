@@ -221,7 +221,7 @@ function handleMove(evt) {
 
             var now = Date.now();
 
-            var dt = now- timestamp;
+            var dt = now - timestamp;
             let distance = euclideanDistance(touches[i].pageX, touches[i].pageY, [ongoingTouches[idx].pageX, ongoingTouches[idx].pageY]);
            
             // console.log("distance:", distance);
