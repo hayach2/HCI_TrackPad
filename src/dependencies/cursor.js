@@ -64,6 +64,11 @@ $(document).ready(function(){
 
     var x = $("#my_target").position();
     console.log("x:", x)
+    var canvas = $("#canvas").position();
+    console.log("canvas:", canvas)
+
+    var prompt = $("#prompt").position();
+    console.log("prompt:", prompt)
 
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(page_index);

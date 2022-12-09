@@ -46,20 +46,37 @@
             var i=0;
           
             var posx = (358).toFixed();
-            var posy = (810).toFixed();
+            var posy = (0).toFixed();
             for (i=0;i<15;i++)
             {  
                 let top = 3*i;
-                let randx = Math.random(5);
-                let randy = Math.random(5);
-                let randdy = Math.floor(Math.random() * 5);
-                let randdx = Math.floor(Math.random() * 11);
-                // console.log(randx, randy, randdy, randdx)
-                var plx = posx - randdx*32;
-                var ply = posy - randdy*32;
-                if(plx < (179+32) && plx > (179-32)) {
-                    // console.log(plx)
+                let randdy = Math.floor(Math.random() * 26);
+                let randdx = Math.floor(Math.random() * 10);
+                console.log("randx, randy, ",randdy, randdx)
+                var plx = Math.abs(posx - randdx*32);
+                var ply = Math.abs(posy + randdy*32);
+                console.log("plx, ply, ",ply, plx)
+                // keep distance from target logo
+                if(plx < (179+32) && plx > (179-32) ) {
                     plx+=40;
+                }
+                // keep distance from trackpad
+                if(plx < (144+102) && plx > (130) ) {
+                    do {
+                        console.log('before plx:' , plx)
+                        plx = i % 2 == 0 ? plx+110 : plx-110;
+                        // plx+=110;
+                        console.log('after plx:' , plx)
+                    } while(plx < (144+102) && plx > (130))
+                }
+                // keep distance from prompt
+                if(ply < (365) && ply > (220) ) {
+                    do {
+                        console.log('before ply:' , ply)
+                        ply = i % 2 == 0 ? ply+130 : ply-130;
+                        // ply+=110;
+                        console.log('after ply:' , ply)
+                    } while(ply < (365) && ply > (220))
                 }
                 // console.log(posx, posy)
                 document.write(`
@@ -83,7 +100,7 @@
         </div>
     </header>
 
-    <main class="px-3">
+    <main id="prompt" class="px-3">
         <h1>Click on the <span id="color_name"></span> Apple logo</h1>
 <!--        <h1>YEEYY</h1>-->
         <img class="position-absolute" src="../svg/cursor.svg" id="my_cursor" alt="" width="25" height="25" title="Cursor" style="position: absolute;left: 195px; top: 422px; display: none;">
