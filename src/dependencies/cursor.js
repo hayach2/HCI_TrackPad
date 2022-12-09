@@ -62,14 +62,11 @@ $(document).ready(function(){
         alert_and_navigate();
     });
 
-    var x = $("#my_target").position();
-    console.log("x:", x)
-    var canvas = $("#canvas").position();
-    console.log("canvas:", canvas)
+    // var x = $("#my_target").position();
+    // var canvas = $("#canvas").position();
 
-    var prompt = $("#prompt").position();
-    console.log("prompt:", prompt)
-
+    // var prompt = $("#prompt").position();
+    
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(page_index);
 });
@@ -293,3 +290,56 @@ function startup() {
 }
 
 document.addEventListener("DOMContentLoaded", startup);
+
+// document.addEventListener("DOMContentLoaded", addFalseTargets);
+
+
+var i=0;
+var posx = (358).toFixed();
+var posy = (0).toFixed();
+var plx, ply;
+function addFalseTargets() {
+     i = 0;     
+    var x = $("#my_target").position();
+    console.log("x:", x, x.left)
+    for (i=0;i<15;i++)
+    {  
+        let randdy = Math.floor(Math.random() * 26);
+        let randdx = Math.floor(Math.random() * 10);
+        console.log("randx, randy, ",randdy, randdx)
+        plx = Math.abs(posx - randdx*32);
+        ply = Math.abs(posy + randdy*32);
+        console.log("plx, ply, ",ply, plx)
+        // keep distance from target logo
+        if(plx < (179+32) && plx > (179-32) ) {
+            plx+=40;
+        }
+        // keep distance from trackpad
+        if(plx < (144+102) && plx > (130) ) {
+            do {
+                console.log('before plx:' , plx)
+                plx = i % 2 == 0 ? plx+110 : plx-110;
+                // plx+=110;
+                console.log('after plx:' , plx)
+            } while(plx < (144+102) && plx > (130))
+        }
+        // keep distance from prompt
+        if(ply < (365) && ply > (220) ) {
+            do {
+                console.log('before ply:' , ply)
+                ply = i % 2 == 0 ? ply+130 : ply-130;
+                // ply+=110;
+                console.log('after ply:' , ply)
+            } while(ply < (365) && ply > (220))
+        }
+        // console.log(posx, posy)
+        // document.write(`
+        //     <img class="false_target" id="target_${i}"  src="../svg/apple_gray.svg" alt="" width="32" height="32" title="Not-Target" 
+        //     style="
+        //         position: absolute;
+        //         top: ${ply}px;
+        //         left: ${plx}px;
+        //     ">
+        // `);
+    }
+}

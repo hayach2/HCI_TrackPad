@@ -38,7 +38,57 @@
 </head>
 
 <body class="d-flex h-100 text-center text-white bg-dark">
-
+    <script>
+        (function() {
+        // your page initialization code here
+        // the DOM will be available here
+            var i=0;
+          
+            var posx = (358).toFixed();
+            var posy = (0).toFixed();
+            var display;
+            for (i=0;i<20;i++)
+            {  
+                w = i % 2 == 0 ? 32 : 60;
+                h = i % 2 == 0 ? 32 : 60;
+                display = "block";
+                let randdy = Math.floor(Math.random() * 26);
+                let randdx = Math.floor(Math.random() * 10);
+                var plx = Math.abs(posx - randdx*32);
+                var ply = Math.abs(posy + randdy*32);
+                // keep distance from target logo
+                if(plx < (165+32) && plx > (165-32) ) {
+                    plx+=40;
+                }
+                // keep distance from trackpad
+                if(plx < (246) && plx > (100) ) {
+                    do {
+                        plx = i % 2 == 0 ? plx+110 : plx-110;
+                    } while(plx < (246) && plx > (100))
+                }
+                // keep distance from prompt
+                if(ply < (365) && ply > (220) ) {
+                    do {
+                        ply = i % 2 == 0 ? ply+130 : ply-130;
+                    } while(ply < (365) && ply > (220))
+                }
+                plx = Math.abs(plx);
+                ply = Math.abs(ply);
+                if(plx < (165+32) && plx > (165-32) ) {
+                   display= 'none';
+                }
+                document.write(`
+                    <img class="false_target" id="target_${i}"  src="../svg/apple_gray.svg" alt="" width="${w}" height="${h}" title="Not-Target" 
+                    style="
+                        position: absolute;
+                        top: ${ply}px;
+                        left: ${plx}px;
+                        display: ${display}
+                    ">
+                `);
+            }
+        })();
+    </script>
 <!-- p-3 -->
 <div class="cover-container d-flex w-100 h-100 p-0 mx-auto flex-column">
     <header class="mb-auto">
