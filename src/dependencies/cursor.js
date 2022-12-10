@@ -41,7 +41,7 @@ function alert_and_navigate() {
 
 function alert_and_increment() {
     error_rate++;
-    alert("You chose the wrong target.\n" + "Error rate: " + error_rate);
+    // alert("You chose the wrong target.\n" + "Error rate: " + error_rate);
     document.getElementById("my_cursor").style.top = "422px";
     document.getElementById("my_cursor").style.top = "left: 195px";
 
@@ -49,7 +49,7 @@ function alert_and_increment() {
 
 $(document).ready(function(){
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
-    let svg_colors = ["white"];
+    let svg_colors = ["red"];
     let random_color = svg_colors[Math.floor(Math.random()*svg_colors.length)];
     $("#color_name").text(random_color);
     $("#my_target").attr("src", "../svg/apple_" + random_color + ".svg");
