@@ -57,6 +57,13 @@ $(document).ready(function(){
     $("#restart_test").click(function(){
         window.location.assign("index.html");
     });
+    const falseTarget = document.getElementsByClassName("false_target");
+    for(let i = 0; i < falseTarget.length; i++) {
+        const _target = document.getElementById(`target_${i}`);
+        $(_target).click( function () {
+            alert_and_increment();
+        });
+    }
 
     $("#my_target").click( function () {
         alert_and_navigate();
@@ -232,10 +239,12 @@ function handleMove(evt) {
             var speed = (distance / dt * 1000);
             // console.log("speed:", speed);
             
-            
             let expo = parseInt( String(Math.log(distance)) );
             let expoSpeed = parseInt( String(Math.log(speed)) );
-            // console.log("expo: " + expo+ ", expoSpeed: " + expoSpeed);
+            console.log("expo: " + expo+ ", expoSpeed: " + expoSpeed);
+
+            // if(expoSpeed> 4) expoSpeed = 4
+            console.log("expo: " + expo+ ", expoSpeed: " + expoSpeed);
 
             elem.style.left = (elem_left + x_movements * expoSpeed) + 'px';
             elem.style.top = (elem_top + y_movements * expoSpeed) + 'px';
