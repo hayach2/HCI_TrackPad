@@ -47,7 +47,7 @@
             var posx = (358).toFixed();
             var posy = (0).toFixed();
             var display;
-            for (i=0;i<20;i++)
+            for (i=0;i<30;i++)
             {  
                 w = i % 2 == 0 ? 32 : 60;
                 h = i % 2 == 0 ? 32 : 60;
@@ -57,26 +57,19 @@
                 var plx = Math.abs(posx - randdx*32);
                 var ply = Math.abs(posy + randdy*32);
                 // keep distance from target logo
-                if(plx < (350+32) && plx > (350 - 32) ) {
-                    plx+=40;
+                if(plx <= (360+25) && plx >= (360 - 25) ) {
+                    do {
+                        plx+=40;
+                    } while(plx <= (360+25) && plx >= (360-25) )
                 }
                 // keep distance from trackpad
                 if(plx < (246) && plx > (100) ) {
                     do {
-                        plx = i % 2 == 0 ? plx+110 : plx-110;
-                    } while(plx < (246) && plx > (100))
-                }
-                // keep distance from prompt
-                if(ply < (365) && ply > (220) ) {
-                    do {
-                        ply = i % 2 == 0 ? ply+130 : ply-130;
-                    } while(ply < (365) && ply > (220))
+                        ply = i % 2 == 0 ? ply+110 : ply-110;
+                    } while(ply < (752) && ply > (532))
                 }
                 plx = Math.abs(plx);
                 ply = Math.abs(ply);
-                if(plx < (350+32) && plx > (350 - 32) ) {
-                   display= 'none';
-                }
                 document.write(`
                     <img class="false_target" id="target_${i}"  src="../svg/apple_gray.svg" alt="" width="${w}" height="${h}" title="Not-Target" 
                     style="
@@ -102,29 +95,19 @@
     </header>
 
     <main class="px-3">
-        <h1>Click on the <span id="color_name"></span> Apple logo</h1>
-        <!--        <h1>YEEYY</h1>-->
         <img class="position-absolute" src="../svg/cursor.svg" id="my_cursor" alt="" width="25" height="25" title="Cursor"
              style="position: absolute;left: 195px; top: 422px; display: none;">
-        <p class="lead">Task <span id="current_nb_of_test"></span>/<span id="total_nb_of_tests"> </span> </p>
-        <!--        <p class="lead">-->
-        <!--            <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white">Start</a>-->
-        <!--        </p>-->
     </main>
 
     <a class="nav-link m-0 p-0" aria-current="page">
-        <img id="my_target" src="../svg/apple_white.svg" alt="" width="32" height="32" title="Target" style="position:absolute; top: 300px ;left: 350px;">
+        <img id="my_target" src="../svg/apple_white.svg" alt="" width="25" height="25" title="Target" style="position:absolute; top: 300px ;left: 360px;">
     </a>
     <footer class="mt-auto text-white-50 mb-5 pt-5">
         <canvas id="canvas" width="100" height="100" style="border:solid white 1px; border-radius: 10px;">
             Your browser does not support canvas element.
         </canvas>
         <br/>
-        <!--        Log:-->
-        <!--        <pre id="log" style="border: 1px solid #ccc;"></pre>-->
-        <!--        <img src="app.svg" id="my_touchpad" alt="" width="75" height="75" title="Target">-->
-        <!--        <p>Cover template for <a href="https://getbootstrap.com/" class="text-white">Bootstrap</a>, by <a-->
-        <!--                href="https://twitter.com/mdo" class="text-white">@mdo</a>.</p>-->
+        <p class="lead">Task <span id="current_nb_of_test"></span>/<span id="total_nb_of_tests"> </span> </p>
     </footer>
 </div>
 

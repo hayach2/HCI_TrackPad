@@ -49,18 +49,18 @@
             var display;
             for (i=0;i<30;i++)
             {  
-                w = i % 2 == 0 ? 32 : 60;
-                h = i % 2 == 0 ? 32 : 60;
+                w = i % 2 == 0 ? 25 : 45;
+                h = i % 2 == 0 ? 25 : 45;
                 display = "block";
                 let randdy = Math.floor(Math.random() * 26);
                 let randdx = Math.floor(Math.random() * 10);
                 var plx = Math.abs(posx - randdx*32);
                 var ply = Math.abs(posy + randdy*32);
                 // keep distance from target logo
-                if(plx < (165+32) && plx > (165-32) ) {
+                if(plx <= (350+60) && plx >= (350-60) ) {
                     do {
                         plx+=40;
-                    } while(plx <= (165+25) && plx >= (165-25) )
+                    } while(plx <= (350+60) && plx >= (350-60) )
                 }
                 // keep distance from trackpad
                 if(plx < (246) && plx > (100) ) {
@@ -70,9 +70,6 @@
                 }
                 plx = Math.abs(plx);
                 ply = Math.abs(ply);
-                if(plx < (165+32) && plx > (165-32) ) {
-                   display= 'none';
-                }
                 document.write(`
                     <img class="false_target" id="target_${i}"  src="../svg/apple_gray.svg" alt="" width="${w}" height="${h}" title="Not-Target" 
                     style="
@@ -99,17 +96,16 @@
     <main class="px-3">
         <img class="position-absolute" src="../svg/cursor.svg" id="my_cursor" alt="" width="25" height="25" title="Cursor"
              style="position: absolute;left: 195px; top: 422px; display: none;">
-            </main>
-            
-            <a class="nav-link m-0 p-0" aria-current="page">
-                <img id="my_target" src="../svg/apple_white.svg" alt="" width="25" height="25" title="Target">
-            </a>
-            <footer class="mt-auto text-white-50 mb-5 pt-5">
-                <canvas id="canvas" width="100" height="100" style="border:solid white 1px; border-radius: 10px;">
-                    Your browser does not support canvas element.
-                </canvas>
-                <br/>
-                <p class="lead">Task <span id="current_nb_of_test"></span>/<span id="total_nb_of_tests"></span></p>
+    </main>
+    <a class="nav-link m-0 p-0" aria-current="page">
+        <img id="my_target" src="../svg/apple_white.svg" alt="" width="60" height="60" title="Target" style="position:absolute; top: 600px ;left: 315px;">
+    </a>
+    <footer class="mt-auto text-white-50 mb-5 pt-5">
+        <canvas id="canvas" width="100" height="100" style="border:solid white 1px; border-radius: 10px;">
+            Your browser does not support canvas element.
+        </canvas>
+        <br/>
+        <p class="lead">Task <span id="current_nb_of_test"></span>/<span id="total_nb_of_tests"></span></p>
     </footer>
 </div>
 

@@ -20,6 +20,32 @@ future work:
 
 tasks:
 - questionnaire
-- heatmap (mention the method used to click on target)
-- random tasks and random logos
+- random tests
+- start first test with alert
+- fix task counting
+
+done tasks:
+- 27 tests
 - border
+- heatmap (mention the method used to click on target)
+
+
+32
+25
+50
+
+
+top:
+    left: 1
+    right: 3
+    center: 9
+
+middle:
+    left: 7
+    right: 8
+    center: 4
+
+bottom:
+    left: 7
+    right: 5
+    center: 2

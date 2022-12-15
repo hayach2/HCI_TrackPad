@@ -1,10 +1,13 @@
 //https://developer.mozilla.org/en-US/docs/Web/API/Touch_events#additional_tips
 const ongoingTouches = [];
-const number_of_tests = 10;
+const number_of_tests = 27;
 const time_since_started = Date.now();
 let error_rate = 0;
 let str = window.location.href.split(".html")[0];
+console.log(str, 'str')
 let page_index = parseInt(str.charAt(str.length-1));
+console.log(page_index, 'page_index')
+
 page_index ++;
 
 // if cursor over the target, click to go to next text
@@ -24,12 +27,12 @@ function euclideanDistance (x, y, home) {
     return Math.sqrt(Math.abs(x-home[1])^2+(y-home[2])^2);
 }
 
-function alert_and_navigate() {
+function alert_and_navigate(method) {
     let time_ended = Date.now();
     let time_diff = (time_ended - time_since_started) / 1000;
 
-    alert("Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate: " + error_rate);
-
+    // alert("You Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate: " + error_rate);
+    alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
     if (page_index >= number_of_tests) {
         window.location.assign("../end.html");
     } else {
@@ -66,16 +69,17 @@ $(document).ready(function(){
     }
 
     $("#my_target").click( function () {
-        alert_and_navigate();
+        alert_and_navigate("Direct touch");
     });
 
     // var x = $("#my_target").position();
-    // var canvas = $("#canvas").position();
+    var canvas = $("#canvas").position();
 
     // var prompt = $("#prompt").position();
+    console.log(canvas)
     
     $("#total_nb_of_tests").text(number_of_tests);
-    $("#current_nb_of_test").text(page_index);
+    $("#current_nb_of_test").text(page_index-1);
 });
 
 
@@ -183,7 +187,7 @@ function handleEnd(evt) {
             console.log(target, elem_left, elem_top)
             // console.log("***", falseTarget)
             if (elementsOverlap(elem, target)) {
-                alert_and_navigate();
+                alert_and_navigate("mouse");
             }
 
             boundChecker(elem);
@@ -299,56 +303,3 @@ function startup() {
 }
 
 document.addEventListener("DOMContentLoaded", startup);
-
-// document.addEventListener("DOMContentLoaded", addFalseTargets);
-
-
-var i=0;
-var posx = (358).toFixed();
-var posy = (0).toFixed();
-var plx, ply;
-function addFalseTargets() {
-     i = 0;     
-    var x = $("#my_target").position();
-    console.log("x:", x, x.left)
-    for (i=0;i<15;i++)
-    {  
-        let randdy = Math.floor(Math.random() * 26);
-        let randdx = Math.floor(Math.random() * 10);
-        console.log("randx, randy, ",randdy, randdx)
-        plx = Math.abs(posx - randdx*32);
-        ply = Math.abs(posy + randdy*32);
-        console.log("plx, ply, ",ply, plx)
-        // keep distance from target logo
-        if(plx < (179+32) && plx > (179-32) ) {
-            plx+=40;
-        }
-        // keep distance from trackpad
-        if(plx < (144+102) && plx > (130) ) {
-            do {
-                console.log('before plx:' , plx)
-                plx = i % 2 == 0 ? plx+110 : plx-110;
-                // plx+=110;
-                console.log('after plx:' , plx)
-            } while(plx < (144+102) && plx > (130))
-        }
-        // keep distance from prompt
-        if(ply < (365) && ply > (220) ) {
-            do {
-                console.log('before ply:' , ply)
-                ply = i % 2 == 0 ? ply+130 : ply-130;
-                // ply+=110;
-                console.log('after ply:' , ply)
-            } while(ply < (365) && ply > (220))
-        }
-        // console.log(posx, posy)
-        // document.write(`
-        //     <img class="false_target" id="target_${i}"  src="../svg/apple_gray.svg" alt="" width="32" height="32" title="Not-Target" 
-        //     style="
-        //         position: absolute;
-        //         top: ${ply}px;
-        //         left: ${plx}px;
-        //     ">
-        // `);
-    }
-}
