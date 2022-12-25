@@ -1,14 +1,12 @@
+// import { getTestCount } from './tests   '
+
 //https://developer.mozilla.org/en-US/docs/Web/API/Touch_events#additional_tips
 const ongoingTouches = [];
 const number_of_tests = 27;
 const time_since_started = Date.now();
 let error_rate = 0;
-let str = window.location.href.split(".html")[0];
-console.log(str, 'str')
-let page_index = parseInt(str.charAt(str.length-1));
-console.log(page_index, 'page_index')
-
-page_index ++;
+// let str = window.location.href.split(".html")[0];
+// console.log(str, 'str')
 
 // if cursor over the target, click to go to next text
 function elementsOverlap(el1, el2) {
@@ -28,15 +26,28 @@ function euclideanDistance (x, y, home) {
 }
 
 function alert_and_navigate(method) {
+    if(method == 'start') {
+        alert(`Let's GOO!!`);
+        let testIndex = getTestPage();
+        window.location.assign("tests/test" + testIndex + ".html");
+        // window.location.assign(`tests/test2.html`);
+        return; 
+    }
+    let testCount = getTestCount();
     let time_ended = Date.now();
     let time_diff = (time_ended - time_since_started) / 1000;
+    let testIndex = getTestPage();
 
-    // alert("You Time it took to complete the task: " + time_diff + " seconds.\n" + "Error rate: " + error_rate);
+    // console.log(testCount, testIndex,"count and idx");
+    
     alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
-    if (page_index >= number_of_tests) {
+    if (testCount >= number_of_tests) {
+        // console.log("here")
+        localStorage.setItem('test_count', 0);
+        localStorage.setItem('testsArr', JSON.stringify([]));
         window.location.assign("../end.html");
     } else {
-        window.location.assign("test" + page_index + ".html");
+        window.location.assign("test" + testIndex + ".html");
     }
 
 }
@@ -77,9 +88,9 @@ $(document).ready(function(){
 
     // var prompt = $("#prompt").position();
     console.log(canvas)
-    
+    let testNum = getTestCount();
     $("#total_nb_of_tests").text(number_of_tests);
-    $("#current_nb_of_test").text(page_index-1);
+    $("#current_nb_of_test").text(testNum);
 });
 
 
