@@ -27,10 +27,14 @@ function euclideanDistance (x, y, home) {
 
 function alert_and_navigate(method) {
     if(method == 'start') {
+        localStorage.setItem('test_count', 0);
+        localStorage.setItem('testsArr', JSON.stringify([]));
+        
+        // localStorage.removeItem('test_count')
+        // localStorage.removeItem('testArr')
         alert(`Let's GOO!!`);
         let testIndex = getTestPage();
         window.location.assign("tests/test" + testIndex + ".html");
-        // window.location.assign(`tests/test2.html`);
         return; 
     }
     let testCount = getTestCount();
@@ -42,7 +46,6 @@ function alert_and_navigate(method) {
     
     alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
     if (testCount >= number_of_tests) {
-        // console.log("here")
         localStorage.setItem('test_count', 0);
         localStorage.setItem('testsArr', JSON.stringify([]));
         window.location.assign("../end.html");
@@ -62,6 +65,8 @@ function alert_and_increment() {
 }
 
 $(document).ready(function(){
+    
+    console.log('remove')
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
     let svg_colors = ["red"];
     let random_color = svg_colors[Math.floor(Math.random()*svg_colors.length)];
