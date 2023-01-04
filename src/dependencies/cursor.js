@@ -5,8 +5,26 @@ const ongoingTouches = [];
 const number_of_tests = 27;
 const time_since_started = Date.now();
 let error_rate = 0;
+let current_test_number = -1;
+let expData = [];
+
+let test_type = localStorage.getItem('test_type'); // 1: A (with cursor) || 2: B (without cursor)
+
+// TODO: chou aam bisir
+// if (test_type !== null && test_type == 2) {
+//     // hide the cursor
+//     $("#canvas").style.display = 'none';
+// }
+
+console.log( localStorage.getItem('test_type') );
+
+// expData[9] = {'time': 2, 'error_nb': 1, 'method': 'hand'};
+// expData[2] = {'time': 55, 'error_nb': 33, 'method': 'mouse'};
+
 // let str = window.location.href.split(".html")[0];
 // console.log(str, 'str')
+
+console.log( localStorage.getItem('expData') );
 
 // if cursor over the target, click to go to next text
 function elementsOverlap(el1, el2) {
@@ -28,12 +46,26 @@ function euclideanDistance (x, y, home) {
 function alert_and_navigate(method) {
     if(method == 'start') {
         localStorage.setItem('test_count', 0);
+        localStorage.setItem('expData', JSON.stringify(expData));
         localStorage.setItem('testsArr', JSON.stringify([]));
         
         // localStorage.removeItem('test_count')
         // localStorage.removeItem('testArr')
+
         alert(`Let's GOO!!`);
+
+        if (localStorage.getItem('test_type') === null || localStorage.getItem('test_type') == 0 ) {
+            // this is the beginning of the tests, so we start with test 1
+            localStorage.setItem('test_type', 1);
+        } else if ( localStorage.getItem('test_type') == 1 ) {
+            // we already did test 1, let's start with test 2
+            localStorage.setItem('test_type', 2);
+        } else if ( localStorage.getItem('test_type') == 2 ) {
+            localStorage.setItem('test_type', 1); // toggle values 1 & 2
+        }
+
         let testIndex = getTestPage();
+        localStorage.setItem('current_test_number', testIndex);
         window.location.assign("tests/test" + testIndex + ".html");
         return; 
     }
@@ -43,11 +75,24 @@ function alert_and_navigate(method) {
     let testIndex = getTestPage();
 
     // console.log(testCount, testIndex,"count and idx");
-    
+
+    let temp_data = {'test': localStorage.getItem('current_test_number'),'time': time_diff, 'error_nb': error_rate, 'method': method};
     alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
+
+    localStorage.setItem('current_test_number', testIndex);
+    expData = (localStorage.getItem('expData'));
+    expData= JSON.parse(expData);
+
+    expData.push(temp_data);
+
+    localStorage.setItem('expData', JSON.stringify([...expData]));
+    console.log(expData);
+
+    // localStorage.('expData', JSON.stringify([...expData]));
     if (testCount >= number_of_tests) {
         localStorage.setItem('test_count', 0);
         localStorage.setItem('testsArr', JSON.stringify([]));
+        localStorage.setItem('test_type', 0);
         window.location.assign("../end.html");
     } else {
         window.location.assign("test" + testIndex + ".html");
@@ -203,7 +248,7 @@ function handleEnd(evt) {
             console.log(target, elem_left, elem_top)
             // console.log("***", falseTarget)
             if (elementsOverlap(elem, target)) {
-                alert_and_navigate("mouse");
+                alert_and_navigate("Mouse");
             }
 
             boundChecker(elem);
