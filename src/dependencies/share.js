@@ -25,14 +25,36 @@ $(document).ready(function () {
     function ConvertToCSV(objArray) {
         var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
         var str = '';
+        var beginning = true;
 
         for (var i = 0; i < array.length; i++) {
             var line = '';
+            // if (beginning) {
+            //     beginning = false;
+            //     if (line != '') line += ','
+            //
+            //     line += array[i];
+            //     array[i]
+            // }
+
+            if (beginning) {
+                for (var index in array[i]) {
+                    if (line != '') line += ','
+
+                    line += index;
+                }
+                str += line + '\r\n';
+                line = '';
+            }
+
+            beginning = false;
+
             for (var index in array[i]) {
                 if (line != '') line += ','
 
                 line += array[i][index];
             }
+            beginning = false;
 
             str += line + '\r\n';
         }
@@ -47,6 +69,7 @@ $(document).ready(function () {
             let test_type = localStorage.getItem('test_type');
             console.log(localStorage.getItem('expData'));
             var CSV = ConvertToCSV(localStorage.getItem('expData'));
+            console.log('hon' + CSV);
             // var CSV = localStorage.getItem('expData');
 
             var fileName = $("#name_field").val() + '_' + test_type;
