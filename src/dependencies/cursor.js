@@ -46,17 +46,11 @@ function alert_and_navigate(method) {
         // localStorage.removeItem('test_count')
         // localStorage.removeItem('testArr')
 
-        alert(`Let's GOO!!`);
+        test_type = document.querySelector('input[name="testType"]:checked').id;
+        localStorage.setItem('test_type', test_type);
+        // if 1 -> A || if 2 -> B
 
-        if (localStorage.getItem('test_type') === null || localStorage.getItem('test_type') == 0 ) {
-            // this is the beginning of the tests, so we start with test 1
-            localStorage.setItem('test_type', 1);
-        } else if ( localStorage.getItem('test_type') == 1 ) {
-            // we already did test 1, let's start with test 2
-            localStorage.setItem('test_type', 2);
-        } else if ( localStorage.getItem('test_type') == 2 ) {
-            localStorage.setItem('test_type', 1); // toggle values 1 & 2
-        }
+        alert(`Let's GOO!!`);
 
         let testIndex = getTestPage();
         localStorage.setItem('current_test_number', testIndex);
@@ -105,7 +99,7 @@ function alert_and_increment() {
 
 $(document).ready(function(){
 
-    if (test_type !== null && test_type == 2) {
+    if (test_type !== null && test_type == 'B') {
         // hide the cursor
         document.getElementById('canvas').style.display = 'none';
     }
