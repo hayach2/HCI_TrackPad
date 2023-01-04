@@ -10,12 +10,6 @@ let expData = [];
 
 let test_type = localStorage.getItem('test_type'); // 1: A (with cursor) || 2: B (without cursor)
 
-// TODO: chou aam bisir
-// if (test_type !== null && test_type == 2) {
-//     // hide the cursor
-//     $("#canvas").style.display = 'none';
-// }
-
 console.log( localStorage.getItem('test_type') );
 
 // expData[9] = {'time': 2, 'error_nb': 1, 'method': 'hand'};
@@ -110,7 +104,12 @@ function alert_and_increment() {
 }
 
 $(document).ready(function(){
-    
+
+    if (test_type !== null && test_type == 2) {
+        // hide the cursor
+        document.getElementById('canvas').style.display = 'none';
+    }
+
     console.log('remove')
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
     let svg_colors = ["red"];
