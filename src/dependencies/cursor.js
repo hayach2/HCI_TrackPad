@@ -64,7 +64,7 @@ function alert_and_navigate(method) {
 
     // console.log(testCount, testIndex,"count and idx");
 
-    let temp_data = {'test': localStorage.getItem('current_test_number'),'time': time_diff, 'error_nb': error_rate, 'method': method};
+    let temp_data = {test: localStorage.getItem('current_test_number'),time: time_diff, error_nb: error_rate, method: method};
     alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
 
     localStorage.setItem('current_test_number', testIndex);

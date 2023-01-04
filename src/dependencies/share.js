@@ -22,6 +22,23 @@ $(document).ready(function () {
         return CSV;
     }
 
+    function ConvertToCSV(objArray) {
+        var array = typeof objArray != 'object' ? JSON.parse(objArray) : objArray;
+        var str = '';
+
+        for (var i = 0; i < array.length; i++) {
+            var line = '';
+            for (var index in array[i]) {
+                if (line != '') line += ','
+
+                line += array[i][index];
+            }
+
+            str += line + '\r\n';
+        }
+
+        return str;
+    }
 
     $("#download").click(function (e) {
         if ($("#name_field").val() === "") {
@@ -29,7 +46,7 @@ $(document).ready(function () {
         } else {
             let test_type = localStorage.getItem('test_type');
             console.log(localStorage.getItem('expData'));
-            var CSV = JSONToCSV(localStorage.getItem('expData'));
+            var CSV = ConvertToCSV(localStorage.getItem('expData'));
             // var CSV = localStorage.getItem('expData');
 
             var fileName = $("#name_field").val() + '_' + test_type;
