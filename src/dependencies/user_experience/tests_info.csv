@@ -1,4 +1,4 @@
-test_nb,size,position,X,Y,W
+test_nb,size_target,position,X,Y,W
 1,S,top_left,0,1,25
 3,S,top_right,365,1,25
 9,S,top_middle,182,1,25

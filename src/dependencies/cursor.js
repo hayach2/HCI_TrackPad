@@ -154,7 +154,7 @@ $(document).ready(function(){
     
     var x = $("#my_target").position()
     console.log(x,'target size')
-    alert(`target top left: , ${x.top}, ${x.left}`)
+    // alert(`target top left: , ${x.top}, ${x.left}`)
     let testNum = getTestCount();
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(testNum);
