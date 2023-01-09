@@ -1,15 +1,15 @@
 test_nb,size,position,X,Y,W
-1,S,top_left,0,1.5,25
-3,S,top_right,365,1.5,25
-9,S,top_middle,182,1.5,25
+1,S,top_left,0,1,25
+3,S,top_right,365,1,25
+9,S,top_middle,182,1,25
 
 6,S,(bottom_middle)_left,0,590,25
 5,S,(bottom_middle)_right,365,590,25
 2,S,(bottom_middle)_middle,182,590,25
 
-7,S,(top_middle)_left,0,287,25
-8,S,(top_middle)_right,365,287,25
-4,S,(top_middle)_middle,182,287,25
+7,S,(top_middle)_left,0,197,25
+8,S,(top_middle)_right,365,197,25
+4,S,(top_middle)_middle,182,197,25
 
 
 
@@ -21,9 +21,9 @@ test_nb,size,position,X,Y,W
 14,M,(bottom_middle)_right,350,576,40
 11,M,(bottom_middle)_middle,175,576,40
 
-16,M,(top_middle)_left,0,279,40
-17,M,(top_middle)_right,350,279,40
-13,M,(top_middle)_middle,175,279,40
+16,M,(top_middle)_left,0,189,40
+17,M,(top_middle)_right,350,189,40
+13,M,(top_middle)_middle,175,189,40
 
 
 
@@ -35,8 +35,8 @@ test_nb,size,position,X,Y,W
 23,L,(bottom_middle)_right,330,556,50
 20,L,(bottom_middle)_middle,165,556,50
 
-25,L,(top_middle)_left,0,269,50
-26,L,(top_middle)_right,330,269,50
-22,L,(top_middle)_middle,165,269,50
+25,L,(top_middle)_left,0,179,50
+26,L,(top_middle)_right,330,179,50
+22,L,(top_middle)_middle,165,179,50
 
 
