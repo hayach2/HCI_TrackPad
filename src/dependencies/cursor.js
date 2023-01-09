@@ -119,7 +119,6 @@ $(document).ready(function(){
     }
     // var canvas = $("#canvas").position();
     // console.log(canvas, 'canvas')
-    // alert(`canvas: , ${canvas}, ${canvas.top}, ${canvas.left}`)
     // var prompt = $("#prompt").position();
     // console.log(canvas)
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
@@ -152,9 +151,10 @@ $(document).ready(function(){
     $("#my_target").click( function () {
         alert_and_navigate("Direct touch");
     });
-
+    
     var x = $("#my_target").position()
     console.log(x,'target size')
+    alert(`target top left: , ${x.top}, ${x.left}`)
     let testNum = getTestCount();
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(testNum);
