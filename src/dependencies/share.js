@@ -84,6 +84,8 @@ $(document).ready(function () {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
+
+            // window.location.assign("./index.html");
         }
     });
 

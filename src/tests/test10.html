@@ -61,11 +61,11 @@
                     } while(plx <= (0+40) && plx >= (0) )
                 }
                 // keep distance from trackpad
-                if(plx < (246) && plx > (100) ) {
-                    do {
-                        ply = i % 2 == 0 ? ply+110 : ply-110;
-                    } while(ply < (752) && ply > (532))
-                }
+                // if(plx < (246) && plx > (100) ) {
+                //     do {
+                //         ply = i % 2 == 0 ? ply+110 : ply-110;
+                //     } while(ply < (752) && ply > (532))
+                // }
                 plx = Math.abs(plx);
                 ply = Math.abs(ply);
                 document.write(`

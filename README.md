@@ -16,17 +16,3 @@ Analysis:
 
 future work:
 - display trackpad on call
-
-
-tasks:
-- questionnaire
-
-
-done tasks:
-- random tests
-- fix task counting
-- start first test with alert
-- 27 tests
-- border
-- heatmap (mention the method used to click on target)
-

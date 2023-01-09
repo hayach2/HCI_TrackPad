@@ -37,6 +37,12 @@ function euclideanDistance (x, y, home) {
     return Math.sqrt(Math.abs(x-home[1])^2+(y-home[2])^2);
 }
 
+function ourEuclidean(target) {
+    // console.log(target.top, 'ihere')
+    // console.log(Math.sqrt(Math.abs(195-target.left)^2+(422-target.top)^2), 'this')
+    return Math.sqrt(Math.abs(328-target.left)^2+ Math.abs(464-target.top)^2);
+}
+
 function alert_and_navigate(method) {
     if(method == 'start') {
         localStorage.setItem('test_count', 0);
@@ -50,7 +56,7 @@ function alert_and_navigate(method) {
         localStorage.setItem('test_type', test_type);
         // if 1 -> A || if 2 -> B
 
-        alert(`Let's GOO!!`);
+        alert(`Welcome to our HCI test.\nLet's GOO!!\n`);
 
         let testIndex = getTestPage();
         localStorage.setItem('current_test_number', testIndex);
@@ -63,8 +69,17 @@ function alert_and_navigate(method) {
     let testIndex = getTestPage();
 
     // console.log(testCount, testIndex,"count and idx");
+    console.log('#################')
+    let target_position = $("#my_target").position();
+    console.log(target_position, target_position.top, target_position.left, 'target position')
+    let distance = ourEuclidean(target_position);
+    let targetElt = $("#my_target");
+    let width = targetElt.width();
+    let fitt = Math.log2(distance / width + 1)
+    console.log(distance, width, fitt, 'distance and width')
 
-    let temp_data = {test_nb: localStorage.getItem('current_test_number'),time: time_diff, error_nb: error_rate, method: method};
+
+    let temp_data = {test_nb: localStorage.getItem('current_test_number'),time: time_diff, error_nb: error_rate, method: method, W:width , D: distance, Fitts:fitt};
     alert(`You reached the target in ${time_diff} seconds with ${error_rate} error(s).\n Method used: ${method}`);
 
     localStorage.setItem('current_test_number', testIndex);
@@ -80,7 +95,6 @@ function alert_and_navigate(method) {
     if (testCount >= number_of_tests) {
         localStorage.setItem('test_count', 0);
         localStorage.setItem('testsArr', JSON.stringify([]));
-        localStorage.setItem('test_type', 0);
         window.location.assign("../end.html");
     } else {
         window.location.assign("test" + testIndex + ".html");
@@ -103,8 +117,11 @@ $(document).ready(function(){
         // hide the cursor
         document.getElementById('canvas').style.display = 'none';
     }
-
-    console.log('remove')
+    // var canvas = $("#canvas").position();
+    // console.log(canvas, 'canvas')
+    // alert(`canvas: , ${canvas}, ${canvas.top}, ${canvas.left}`)
+    // var prompt = $("#prompt").position();
+    // console.log(canvas)
     // let svg_colors = ["white", "green", "purple", "red", "yellow"];
     let svg_colors = ["red"];
     let random_color = svg_colors[Math.floor(Math.random()*svg_colors.length)];
@@ -122,15 +139,21 @@ $(document).ready(function(){
         });
     }
 
+    const canvasElem = document.getElementById('canvas');
+    const targetElem = document.getElementById('my_target');
+
+    for(let i = 0; i < falseTarget.length; i++) {
+        const _target = document.getElementById(`target_${i}`);
+        if (elementsOverlap(canvasElem, _target) || elementsOverlap(targetElem, _target)) {
+            console.log(`taregt id: target_${i}`)
+            document.getElementById(`target_${i}`).style.display = "none";
+        }
+    }
     $("#my_target").click( function () {
         alert_and_navigate("Direct touch");
     });
 
-    // var x = $("#my_target").position();
-    var canvas = $("#canvas").position();
-
-    // var prompt = $("#prompt").position();
-    console.log(canvas)
+    // var x = $("#my_target").position()
     let testNum = getTestCount();
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(testNum);

@@ -64,6 +64,8 @@
                     } while(plx <= (358+25) && plx >= (358-25) )
                 }
                 // keep distance from trackpad
+                let canvas = $("#canvas").position();
+                console.log(canvas, 'cann')
                 if(plx < (246) && plx > (100) ) {
                     do {
                         ply = i % 2 == 0 ? ply+110 : ply-110;
