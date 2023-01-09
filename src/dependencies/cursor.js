@@ -153,7 +153,8 @@ $(document).ready(function(){
         alert_and_navigate("Direct touch");
     });
 
-    // var x = $("#my_target").position()
+    var x = $("#my_target").position()
+    console.log(x,'target size')
     let testNum = getTestCount();
     $("#total_nb_of_tests").text(number_of_tests);
     $("#current_nb_of_test").text(testNum);
