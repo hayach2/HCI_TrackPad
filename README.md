@@ -12,7 +12,6 @@
 Analysis:
 - learning curveL plot the min time taken foreach task
 - model fitts law on your data: start point before the tests
--
 
 future work:
-- display trackpad on call
+- display trackpad on demand
